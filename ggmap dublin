@@ -1,0 +1,5 @@
+install.pacakges("ggmap")
+
+library(ggmap)
+
+geocode("Dublin")
