@@ -1,3 +1,5 @@
+# journal.r-project.org/archive/2013-1/kahle-wickham.pdf
+
 install.pacakges("ggmap")
 
 library(ggmap)
