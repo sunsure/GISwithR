@@ -25,7 +25,7 @@ library(rworldmap)   # visualising (global) spatial data
   mapGriddedData()
   mapGriddedData(mapRegion="europe")
  
- 
+##########################################################
 ### GOOGLEVIS ###
  
 library(googleVis)    
@@ -50,4 +50,4 @@ showLine=F, enableScrollWheel=TRUE,
 width=800,height=400))
   plot(M1)
  
- 
+ ########################################################
