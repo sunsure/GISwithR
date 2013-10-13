@@ -1,3 +1,5 @@
+# Overlays on Google map tiles in R
+# Markus Loecher, Berlin School of Economics and Law (BSEL)
 
 ### RGOOGLEMAPS ###
  
