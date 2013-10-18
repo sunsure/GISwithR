@@ -1,5 +1,6 @@
 # Implementing Spatial Data Analysis Software Tools in R
 # Roger Bivand
+# UseR! 2013 Workshop - Albacete - July 2013
 
 #############################################################################
 
