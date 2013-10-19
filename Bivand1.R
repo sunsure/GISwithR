@@ -11,3 +11,8 @@ plot(ncpolys, border =‘‘grey’’)
 plot(ncCC89.nb, as.matrix(nc.sids[, c(‘‘lon’’, ‘‘lat’’)]), add = TRUE)
 plot(diffnb(ncCC89.nb, new30, verbose = FALSE), as.matrix(nc.sids[,
 c(‘‘lon’’, ‘‘lat’’)]), points = FALSE, add = TRUE, lwd = 3)
+
+###############################################################################
+
+# Spatial Autocorrelation 
+# Roger Bivand
