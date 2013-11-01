@@ -4,7 +4,7 @@
 % KML type
 % RworldMaps by Any South
 % ggmap - hadley Wickham
-
+% spatial.ly is written by James Cheshire. James is a lecturer at the UCL Centre for Advanced Spatial Analysis 
 %-----------------------------------%
 \usepackage{default}
 
@@ -70,8 +70,10 @@ map("worldHires","Mexico"
  xlim=c(-118.4,-86.7)
  ylim=c(14.5321,32.71865),
  col="blue",fill=TRUE)
-
-
+\end{framed}
+%-----------------------------------%
+\begin{frame}[fragile]
+\begin{verbatim}
 library(maptools) #for shapeﬁles
 ‘readShapePoly’
 Read in a polygon shape layer (e.g., administrative
@@ -82,7 +84,7 @@ read in a line shape layer
 ‘readShapePoints’
 read in a point shape layerlibrary(maptools) #for shapeﬁles
 ‘readShapePoly’
-
-
+\end{frame}
+maptools, RColorBrewer, classInt
 %-----------------------------------%
 \end{document}
