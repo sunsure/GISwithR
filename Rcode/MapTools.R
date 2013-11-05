@@ -7,6 +7,7 @@
 # eglises (use e.g. this to geolocalise places of interest). Then run this code from Baptiste’s tutorial
 
 library(maptools)
+
 france<-readShapeSpatial("departements.shp",
   proj4string=CRS("+proj=longlat"))
 routesidf<-readShapeLines(
@@ -17,6 +18,7 @@ trainsidf<-readShapeLines(
   "ile-de-france.shp/railways.shp",
   proj4string=CRS("+proj=longlat")
   )
+  
 plot(france,xlim=c(2.2,2.4),ylim=c(48.75,48.95),lwd=2)
 plot(routesidf[routesidf$type=="secondary",],add=TRUE,lwd=2,col="lightgray")
 plot(routesidf[routesidf$type=="primary",],add=TRUE,lwd=2,col="lightgray")
