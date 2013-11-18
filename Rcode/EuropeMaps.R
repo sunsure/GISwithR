@@ -1,4 +1,5 @@
 # http://www.r-bloggers.com/maps-in-r-introduction-drawing-the-map-of-europe/
+# http://www.inside-r.org/packages/cran/RgoogleMaps/docs/GetMap
 
 library(ggmap)
 library(mapproj)
