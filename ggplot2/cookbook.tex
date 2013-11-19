@@ -4,6 +4,7 @@
 13.18 Chloropleth maps
 13.19 
 13.20 Shapefiles
+Wheatley
 %-----------------------------------------------%
 %Page 294
 Creating a vector field
@@ -147,6 +148,56 @@ ggplot(crimes
 %13.20 Creating a map from a shapefile
 
 Creating a map from an ESRI shapefile.
+
+
+%------------------------------------------------%
+%------------------------------------------------%
+%Wheatley
+Packages
+\begin{itemize}
+\item sp vector data
+\item raster grid data
+\item rgdal input/output, coordinate systems
+\item rgeos geometric calculations on vector data
+\end{itemize}
+%-------------------------------------------------%
+Vector example: admin boundary
+\begin{verbatim}
+map <- getData('GADM',country='IRL', level=0)
+projection(map)
+# [1] "+proj=longlat +datum=WGS84"
+\end{verbatim}
+%------------------------------------------------%
+
+Vector example: soil map of world
+ESRI shapefile from fao.org
+soils <- readOGR("~/DSMW/", "DSMW") #read
+projection(soils) <- "+proj=longlat +datum=WGS84"
+dim(soils@data)
+#[1] 34112 12
+soils@data[5000:5002,]
+%------------------------------------------------%
+
+
+Black Earth Soils
+\begin{verbatim}
+blackearth <- subset(soils, substr(DOMSOI,1,1) %in% c("C","K"))
+>blackearth <- gUnaryUnion(blackearth)
+\end{verbatim}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
