@@ -73,14 +73,12 @@ The \texttt{map-uscore-data()} function
 \end{itemize}
 %-----------------------------------------------%
 
-
-
-
 %----------------------------------------------%
 
 % Page 311
 It is possibel to get speciific regions from a particular map.
 
+\begin{framed]
 \begin{verbatim}
 east_asia <- map_data("world",region=c("japan","China","North Korea","South Korea"))
 
@@ -88,7 +86,13 @@ east_asia <- map_data("world",region=c("japan","China","North Korea","South Kore
 
 scale_fill_brewer("pallette_set2")
 \end{verbatim}
+\end{framed}
 %----------------------------------------------%
+%Page 312
+
+If there is a separae map for each region, that map data will be at
+higher resolution that in youw ere to extrac it from the ``world" map.
+
 \begin{verbatim}
 NZ1 <- map_data("world")
 
@@ -96,8 +100,64 @@ NZ2 <- map_data("nz")
 ggplot(nz2 (aes(x=long,y=lat)) + geom_path().
 \end{verbatim}
 %----------------------------------------------%
-%Section 3.18
+%Section 13.18
 %PAge 313
 Creating a Chlorpleth Map
+
+Creating a map where regions are colours according to some variable value.
+\begin{verbatim}
+library(maps)
+states_map <- map_data("state")
+crime_map <- merge(states_map,crimes,by.x="region",by.y="state")
+head(crime_map)
+
+library(plyr)
+
+\end{verbatim}
+%------------%
+% Page 314
+
+\begin{verbatim}
+ggplot(crimes, aes(map_id=state,fill=Assault))+ 
+...
+expand_limits(x=states_map$long,y=states_map$lat) + 
+coord_map("polyconic")
+
+\end{verbatim}
+
+%------------------------------------------------%
+
+%Page317
+Making a map with a clean background : removing background elements from a map.
+
+
+
+
+
+%------------------------------------------------%
+%PAge 318
+
+\begin{verbatim}
+ggplot(crimes
+\end{verbatim}
+
+
+%------------------------------------------------%
+%PAge 319
+%13.20 Creating a map from a shapefile
+
+Creating a map from an ESRI shapefile.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
