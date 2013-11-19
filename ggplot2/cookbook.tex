@@ -1,11 +1,58 @@
 %-----------------------------------------------%
-3.12 Vector Fields
-3.17 Creating a Map
-3.18 Chloropleth maps
-3.20 Shapefiles
+13.12 Vector Fields
+13.17 Creating a Map
+13.18 Chloropleth maps
+13.19 
+13.20 Shapefiles
+%-----------------------------------------------%
+%Page 294
+Creating a vector field
+use \texttt{geom_segment}. Lets use the \texttt{isabel} data set.
 
+
+library{gcookbook)
+islabel
+
+x and y are longtitude and latitude values respectively.
+Z is the height in kilometres.
+
+The vx,vy and vz are windspeed components in each of the directions (m/s).
+Speed is the windspeed.
+
+\begin{framed}
+\begin{verbatim}
+
+
+\end{verbatim}
+\end{framed}
+
+%Page 297
+We can map speed to colour. We'll also ass a map of 
+the USA and zoom in on the area of interest,as shown in the graph on the right.
+
+%-----------%
+%PAge 298
+\begin{verbatim}
+usa <- map_data("usa")
+scale_colour_continuous(low="grey80",high="darkred")+
+geom_path(aes(x=long,y=lat,group=group),data=usa)+
+ggplot(islicesub, aes(x=x,y=y)) + geom_segment(aes(xend =x +vx/50,vend=y+vy/50,colour=speed),
+\end{verbatim}
+%-----------%
+%PAge 299
+The \textbf{\textit{isabel}} data set has three-dimensional, so we can make a faceted graph of the data.
+
+\begin{verbatim}
+#Page 299
+ggplot(isub,aes(x=x, y=y)) + + geom_segment(aes(xend =x +vx/50,vend=y+vy/50,colour=speed),
+scale_colour_continuous(low="grey80",high="darkred")+
+facet_wrap(-z)
+\end{verbatim}
+%-----------------------------------------------%
 %-----------------------------------------------%
 %Page 309
+
+
 The default projection is the Mercator projection
 
 \begin{verbatim}
@@ -14,13 +61,20 @@ states_map <- map_data("state")
 ggplot(states_map, aes(x=long,y=lat,group=group)) + geom_polygon(fill="white",colour="black")
 \end{verbatim}
 
+%-------------%
+The \texttt{map-uscore-data()} function
+
+\begin{itemize}
+\item[long] Longtitude
+\item[lat] Latitude
+\item[group] This is a grouping variable for each polygon. A region or subregion might have multiple polygons.
+\item[order] The order to connect each point in a group
+\item[region] Roughly, the names of countries, although some other objects are lakes.
+\end{itemize}
 %-----------------------------------------------%
 
 
-The \texttt{map-uscore-data()} function
 
-This is a grouping variable for each polygon. A region or subregions might have multiple polygons (i.e. if islands are
-included)
 
 %----------------------------------------------%
 
