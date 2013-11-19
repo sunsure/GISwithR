@@ -1,0 +1,49 @@
+%-----------------------------------------------%
+3.12 Vector Fields
+3.17 Creating a Map
+3.18 Chloropleth maps
+3.20 Shapefiles
+
+%-----------------------------------------------%
+%Page 309
+The default projection is the Mercator projection
+
+\begin{verbatim}
+library(maps)
+states_map <- map_data("state")
+ggplot(states_map, aes(x=long,y=lat,group=group)) + geom_polygon(fill="white",colour="black")
+\end{verbatim}
+
+%-----------------------------------------------%
+
+
+The \texttt{map-uscore-data()} function
+
+This is a grouping variable for each polygon. A region or subregions might have multiple polygons (i.e. if islands are
+included)
+
+%----------------------------------------------%
+
+% Page 311
+It is possibel to get speciific regions from a particular map.
+
+\begin{verbatim}
+east_asia <- map_data("world",region=c("japan","China","North Korea","South Korea"))
+
+#Map regions to fill colour
+
+scale_fill_brewer("pallette_set2")
+\end{verbatim}
+%----------------------------------------------%
+\begin{verbatim}
+NZ1 <- map_data("world")
+
+NZ2 <- map_data("nz")
+ggplot(nz2 (aes(x=long,y=lat)) + geom_path().
+\end{verbatim}
+%----------------------------------------------%
+%Section 3.18
+%PAge 313
+Creating a Chlorpleth Map
+
+
