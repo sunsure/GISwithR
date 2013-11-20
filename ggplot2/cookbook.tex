@@ -73,7 +73,98 @@ The \texttt{map-uscore-data()} function
 \item[region] Roughly, the names of countries, although some other objects are lakes.
 \end{itemize}
 %-----------------------------------------------%
+If you want to draw a map of a region in the world map for which there isn't a separate map, you can
+first look for the region name
 
+\begin{verbatim}
+sort(unique(world_map$region))
+
+east_asia <- map_data("world",region=c("Japan","China","North Korea","South Korea")).
+
+\end{verbatim}
+%----------------------------------------------------%
+# Page 311
+ggplot(east_asia, aes(x=long,y=lat,group=group,fill=region)) + 
+geom_polygon(colours="black")+
+scale_fill_brewer(pallette="set2)
+
+%-----------------------------------------------------%
+
+# Chloropleth Maps
+##############
+# PAge 314
+ggplot(crimes(aes(map_id=state,fill=Assault))+
+geom_map(map=state_map,colour="black") + 
+scale_fill_gradient2(low="#559999",mid="grey90",high="#BB650B",midpoint=median(crimes$Assault)) +
+
+expand_limits(x=state_map$long,y=state_map$lat) +
+co_ordmap("poyconic")
+
+############
+%------------------------%
+
+##############
+# Page 316/7
+
+ggplot(crimes(aes(map_id=state,fill=Assault))+
+geom_map(map=state_map,colour="black") + 
+expand_limits(x=state_map$long,y=state_map$lat) +
+co_ordmap("poyconic")
+
+############
+%-----------------------%
+Page 317/8
+#Create a theme with many of the background elements removed.
+theme_clean <-function(base_size=12){
+require(grid)
+there_grey(base_size) %+replace%
+theme(
+axis.title =element_blank(),
+axis.text =element_blank(),
+panel.background =element_blank(),
+panel.grid =element_blank(),
+axis.tick.lengths=unit(0,"cm"),
+axix.tick.margins=unit(0,"cm"),
+panel.margins=unit(0,"cm"),
+plot.margin=unit(0,"cm"),
+complete=TRUE
+)
+}
+
+##############
+ggplot(crimes(aes(map_id=state,fill=assault_q))+
+geom_map(map=state_map,colour="black") + 
+scale_fill_manual(values=pal)+
+expand_limits(x=state_map$long,y=state_map$lat) +
+co_ordmap("poyconic") + 
+labs(fill="Assault Rate \n Percentile")+
+theme_clean()
+
+############
+
+
+ 
+%Page 319
+In some maps it is important to include cotnextual infromation such as longitutda end latitude.
+
+
+%-------------------------%
+
+Page 319
+Creating a Shapefile
+
+load the shapefile using readShapePoly() function from the map tools package.
+Convert it to a dataframe using the command fortify
+then plot it.
+
+\begin{verbatim}
+
+taiwan_shp <-readShapePoly(".....shp")
+taiwan_map <-fortify(taiwan_shp)
+
+ggplot(taiwan_map, aes(x=long,y=lat,group=group)) + geom_path()
+
+\end{verbatim}
 %----------------------------------------------%
 
 % Page 311
