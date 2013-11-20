@@ -5,6 +5,10 @@
 13.19 
 13.20 Shapefiles
 Wheatley
+
+%-----------------------------------------------%
+www.gadm.org
+
 %-----------------------------------------------%
 %Page 294
 Creating a vector field
@@ -50,9 +54,11 @@ scale_colour_continuous(low="grey80",high="darkred")+
 facet_wrap(-z)
 \end{verbatim}
 %-----------------------------------------------%
+%Section 13.17
 %-----------------------------------------------%
-%Page 309
-
+%-----------------------------------------------%
+%Page 309 
+Creating a map.
 
 The default projection is the Mercator projection
 
@@ -63,34 +69,161 @@ ggplot(states_map, aes(x=long,y=lat,group=group)) + geom_polygon(fill="white",co
 \end{verbatim}
 
 %-------------%
+%Page 309 - bottom section
 The \texttt{map-uscore-data()} function
 
 \begin{itemize}
 \item[long] Longtitude
 \item[lat] Latitude
 \item[group] This is a grouping variable for each polygon. A region or subregion might have multiple polygons.
+%---------%
+%Page 310 - two maps + two paragraphs
 \item[order] The order to connect each point in a group
 \item[region] Roughly, the names of countries, although some other objects are lakes.
+%---------%
+%Page 311
+\item[subregion] The names of subregions with a region, which can be obtained for multiple groups
+(For example, the Alaska subregion includes many islands, each within its own group.
 \end{itemize}
-%-----------------------------------------------%
+%---------%
+There are a number of different maps available, including world, nz, france,italy,usa (outline of USA),state (each state in the USA) and county (each county in the USA).
+
+
+To get a map of the world
+\begin{framed}
+\begin{verbatim}
+world_map <- map_data("world")
+world_map
+\end{verbatim}
+\end{framed}
+
+%---------%
+%page 311 - mid section
 If you want to draw a map of a region in the world map for which there isn't a separate map, you can
 first look for the region name
 
+\begin{framed}
 \begin{verbatim}
 sort(unique(world_map$region))
 
 east_asia <- map_data("world",region=c("Japan","China","North Korea","South Korea")).
 
 \end{verbatim}
+\end{framed}
 %----------------------------------------------------%
 # Page 311
+
+\begin{framed}
+\begin{verbatim}
 ggplot(east_asia, aes(x=long,y=lat,group=group,fill=region)) + 
 geom_polygon(colours="black")+
 scale_fill_brewer(pallette="set2)
+\end{verbatim}
+\end{framed}
 
+
+%----------------------------------------------%
+
+% Page 311 - Bottom of page
+It is possibel to get speciific regions from a particular map.
+
+\begin{framed]
+\begin{verbatim}
+east_asia <- map_data("world",region=c("japan","China","North Korea","South Korea"))
+
+#Map regions to fill colour
+
+scale_fill_brewer("pallette_set2")
+\end{verbatim}
+\end{framed}
+%----------------------------------------------%
+
+%Page 312 (TOP OF PAGE)
+
+If there is a separae map for each region, that map data will be at
+higher resolution that in youw ere to extrac it from the ``world" map.
+
+
+%---------------%
+\begin{framed}
+\begin{verbatim}
+NZ1 <- map_data("world",region="New Zealand")
+NZ1 < subset(NZ1, long>0 &lat> -48)  #trim off outlying islands
+ggplot(NZ1,aes(x=long,y=lat,group=group)) + geom_path()
+
+NZ2 <- map_data("nz")
+ggplot(nz2 (aes(x=long,y=lat)) + geom_path().
+\end{verbatim}
+\end{framed}
+%---------------%
+
+%Page 312 - Discussion
+
+
+
+%----------------------------------------------%
+%Page 313 - TWO NZ graps
+
+%Section 13.18 / Creating a Chlorpleth Map
+
+What is a Chloropleth map?
+
+%PAge 313 Mid Page
+
+The Crime Data (USArrests)
+
+%---------------%
+\begin{framed}
+\begin{verbatim}
+crimes <-data.frame(state =tolower(rownames(USArrests)),USArrests)
+head(crimes)
+\end{verbatim}
+\end{framed}
+%---------------%
+
+%PAge 313/314
+
+%Page 314 is good shape
+Creating a map where regions are colours according to some variable value.
+\begin{verbatim}
+library(maps)
+states_map <- map_data("state")
+crime_map <- merge(states_map,crimes,by.x="region",by.y="state")
+head(crime_map)
+
+\end{verbatim}
+
+After mergeing, the order has changed, leading to polygons drawn in the wrong order.
+To solve this, the data must be sorted.
 %-----------------------------------------------------%
 
+
+%Page 314 Plyr
+\begin{framed}
+\begin{verbatim}
+libary(plyr)
+# Use this package for the arrange function().
+crime_map <- arrange(crime_map,group,order)
+head(crime_map)
+\end{verbatim}
+\end{framed}
+
+%R output next
+
+%------------%
+% Page 314 (Mid page)
+
+\begin{verbatim}
+ggplot(crimes, aes(map_id=state,fill=Assault))+ 
+geom_polygon(colour="black")+
+expand_limits(x=states_map$long,y=states_map$lat) + 
+coord_map("polyconic")
+
+\end{verbatim}
+
+
 # Chloropleth Maps
+\begin{verbatim}
 ##############
 # PAge 314
 ggplot(crimes(aes(map_id=state,fill=Assault))+
@@ -101,6 +234,23 @@ expand_limits(x=state_map$long,y=state_map$lat) +
 co_ordmap("poyconic")
 
 ############
+\end{verbatim}
+
+%End of PAge 314. Two graphs on next page
+%------------------------%
+% Page 315 - very Little Content on this page
+% 2 Diagrams
+
+The previous example mapped continuous variables to \texttt{fill}, but discrete values could have also have been used. 
+It is often easier to interpret the data if the data has been discretized.
+For example, we could categorize the values into quantiles and show thos quantiles.
+(Next Example)
+
+%End of Page 315
+
+
+
+
 %------------------------%
 
 ##############
@@ -112,8 +262,13 @@ expand_limits(x=state_map$long,y=state_map$lat) +
 co_ordmap("poyconic")
 
 ############
+%------------------------------------------------%
+
+%Page317
+Making a map with a clean background : removing background elements from a map.
+
 %-----------------------%
-Page 317/8
+% Page 317/8
 #Create a theme with many of the background elements removed.
 theme_clean <-function(base_size=12){
 require(grid)
@@ -131,6 +286,8 @@ complete=TRUE
 )
 }
 
+\begin{framed}
+\begin{verbatim}
 ##############
 ggplot(crimes(aes(map_id=state,fill=assault_q))+
 geom_map(map=state_map,colour="black") + 
@@ -141,17 +298,24 @@ labs(fill="Assault Rate \n Percentile")+
 theme_clean()
 
 ############
+\end{verbatim}
+\end{framed}
 
+%------------------------------------------------%
+%PAge 319 Top of page
 
+In some maps it is important to include cotnextual infromation such as longitutda end latitude.
  
 %Page 319
-In some maps it is important to include cotnextual infromation such as longitutda end latitude.
+%------------------------------------------------%
+%PAge 319
+%13.20 Creating a map from a shapefile
 
+Creating a map from an ESRI shapefile.
 
-%-------------------------%
-
+%------------------------------------------------%
 Page 319
-Creating a Shapefile
+Creating a map from an ESRI Shapefile
 
 load the shapefile using readShapePoly() function from the map tools package.
 Convert it to a dataframe using the command fortify
@@ -165,74 +329,6 @@ taiwan_map <-fortify(taiwan_shp)
 ggplot(taiwan_map, aes(x=long,y=lat,group=group)) + geom_path()
 
 \end{verbatim}
-%----------------------------------------------%
-
-% Page 311
-It is possibel to get speciific regions from a particular map.
-
-\begin{framed]
-\begin{verbatim}
-east_asia <- map_data("world",region=c("japan","China","North Korea","South Korea"))
-
-#Map regions to fill colour
-
-scale_fill_brewer("pallette_set2")
-\end{verbatim}
-\end{framed}
-%----------------------------------------------%
-%Page 312
-
-If there is a separae map for each region, that map data will be at
-higher resolution that in youw ere to extrac it from the ``world" map.
-
-\begin{verbatim}
-NZ1 <- map_data("world")
-
-NZ2 <- map_data("nz")
-ggplot(nz2 (aes(x=long,y=lat)) + geom_path().
-\end{verbatim}
-%----------------------------------------------%
-%Section 13.18
-%PAge 313
-Creating a Chlorpleth Map
-
-Creating a map where regions are colours according to some variable value.
-\begin{verbatim}
-library(maps)
-states_map <- map_data("state")
-crime_map <- merge(states_map,crimes,by.x="region",by.y="state")
-head(crime_map)
-
-library(plyr)
-
-\end{verbatim}
-%------------%
-% Page 314
-
-\begin{verbatim}
-ggplot(crimes, aes(map_id=state,fill=Assault))+ 
-...
-expand_limits(x=states_map$long,y=states_map$lat) + 
-coord_map("polyconic")
-
-\end{verbatim}
-
-%------------------------------------------------%
-
-%Page317
-Making a map with a clean background : removing background elements from a map.
-
-
-
-
-
-%------------------------------------------------%
-%PAge 318
-
-\begin{verbatim}
-ggplot(crimes
-\end{verbatim}
-
 
 %------------------------------------------------%
 %PAge 319
@@ -242,6 +338,11 @@ Creating a map from an ESRI shapefile.
 
 
 %------------------------------------------------%
+%Page 321
+It is actually possible to pass athe SpatialPolygonDataFrame objects directly to ggplot() command, which will automatically ``fortify" it.
+
+Doing the operation into stages allows the user to inspect the data first, and also to merge it with other data.
+
 %------------------------------------------------%
 %Wheatley
 Packages
@@ -275,31 +376,3 @@ Black Earth Soils
 blackearth <- subset(soils, substr(DOMSOI,1,1) %in% c("C","K"))
 >blackearth <- gUnaryUnion(blackearth)
 \end{verbatim}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
